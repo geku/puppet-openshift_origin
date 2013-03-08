@@ -119,7 +119,7 @@ class openshift_origin::mongo {
 
   if $::openshift_origin::configure_firewall == true {
     $mongo_port = $::use_firewalld ? {
-      true    => '27017/tcp',
+      'true'    => '27017/tcp',
       default => '27017:tcp',
     }
 

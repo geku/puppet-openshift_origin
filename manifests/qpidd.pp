@@ -57,7 +57,7 @@ class openshift_origin::qpidd {
 
   if $::openshift_origin::configure_firewall == true {
     $qpid_port = $::use_firewalld ? {
-      true    => '5672/tcp',
+      'true'    => '5672/tcp',
       default => '5672:tcp',
     }
 
