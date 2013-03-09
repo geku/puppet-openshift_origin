@@ -481,13 +481,13 @@ class openshift_origin::node {
 
   package { [
     'openshift-origin-cartridge-abstract',
-    'openshift-origin-cartridge-10gen-mms-agent-0.1',
+#    'openshift-origin-cartridge-10gen-mms-agent-0.1',
     'openshift-origin-cartridge-cron-1.4',
     'openshift-origin-cartridge-diy-0.1',
     'openshift-origin-cartridge-haproxy-1.4',
-    'openshift-origin-cartridge-mongodb-2.2',
+#    'openshift-origin-cartridge-mongodb-2.2',
     'openshift-origin-cartridge-mysql-5.1',
-    'openshift-origin-cartridge-nodejs-0.6',
+#    'openshift-origin-cartridge-nodejs-0.6',
 #    'openshift-origin-cartridge-jenkins-1.4',
 #    'openshift-origin-cartridge-jenkins-client-1.4',
 #    'openshift-origin-cartridge-community-python-2.7',
@@ -503,9 +503,9 @@ class openshift_origin::node {
   case $::operatingsystem {
     'Fedora' : {
       package { [
-        'openshift-origin-cartridge-postgresql-9.2',
+#        'openshift-origin-cartridge-postgresql-9.2',
         'openshift-origin-cartridge-ruby-1.9',
-        'openshift-origin-cartridge-php-5.4',
+#        'openshift-origin-cartridge-php-5.4',
 #        'openshift-origin-cartridge-perl-5.16',
 #        'openshift-origin-cartridge-phpmyadmin-3.5',
       ]:
