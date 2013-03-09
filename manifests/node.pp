@@ -488,10 +488,10 @@ class openshift_origin::node {
     'openshift-origin-cartridge-mongodb-2.2',
     'openshift-origin-cartridge-mysql-5.1',
     'openshift-origin-cartridge-nodejs-0.6',
-    'openshift-origin-cartridge-jenkins-1.4',
-    'openshift-origin-cartridge-jenkins-client-1.4',
-    'openshift-origin-cartridge-community-python-2.7',
-    'openshift-origin-cartridge-community-python-3.3',
+#    'openshift-origin-cartridge-jenkins-1.4',
+#    'openshift-origin-cartridge-jenkins-client-1.4',
+#    'openshift-origin-cartridge-community-python-2.7',
+#    'openshift-origin-cartridge-community-python-3.3',
   ]:
     ensure  => present,
     require => [
@@ -506,8 +506,8 @@ class openshift_origin::node {
         'openshift-origin-cartridge-postgresql-9.2',
         'openshift-origin-cartridge-ruby-1.9',
         'openshift-origin-cartridge-php-5.4',
-        'openshift-origin-cartridge-perl-5.16',
-        'openshift-origin-cartridge-phpmyadmin-3.5',
+#        'openshift-origin-cartridge-perl-5.16',
+#        'openshift-origin-cartridge-phpmyadmin-3.5',
       ]:
         ensure  => present,
         require => [
