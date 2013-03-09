@@ -229,6 +229,7 @@ class openshift_origin::node {
           Package['openshift-origin-port-proxy'],
         ],
         enable  => true,
+        ensure => 'running',
       }
     } else {
       warning 'Please ensure that cgconfig, cgred, openshift-cgroups, openshift-port-proxy are running on all nodes'
@@ -368,6 +369,7 @@ class openshift_origin::node {
   if $::openshift_origin::enable_network_services == true {
     service { 'crond':
       enable  => true,
+      ensure => 'running',
       require => Package['cronie']
     }
 
@@ -385,11 +387,13 @@ class openshift_origin::node {
       ],
       provider => $openshift_init_provider,
       enable   => true,
+      ensure => 'running',
     }
 
     service { 'mcollective':
       require => [Package['mcollective']],
       enable  => true,
+      ensure => 'running',
     }
   } else {
     warning 'Please ensure that mcollective, cron, openshift-gears, openshift-node-web-proxy are running on all nodes'
