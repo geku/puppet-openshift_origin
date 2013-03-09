@@ -219,22 +219,22 @@ class openshift_origin::node {
       service { 'cgconfig': 
         enable => true,
         ensure => 'running',
+        require => [
+          Package['rubygem-openshift-origin-node'],
+          Package['openshift-origin-node-util'],
+        ],
       }
 
       service { 'cgred': 
         enable => true,
         ensure => 'running',
-        require => Service['cgconfig']
+        require => Service['cgconfig'],
       }
 
       service { 'openshift-cgroups': 
         enable => true,
         ensure => 'running',
-        require => [
-          Package['rubygem-openshift-origin-node'],
-          Package['openshift-origin-node-util'],
-          Service['cgred']
-        ],
+        require => Service['cgred'],
       }
 
       service { 'openshift-port-proxy': 
