@@ -287,6 +287,7 @@ class openshift_origin (
   if $enable_network_services == true {
     service { [httpd, network, sshd]:
       enable  => true,
+      ensure  => 'running',
       require => [Package['httpd'], Package['openssh-server']],
     }
   } else {
