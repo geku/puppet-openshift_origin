@@ -391,19 +391,27 @@ class openshift_origin (
     }
     )
 
+    service { 'firewalld':
+      enable => true,
+      ensure => running
+    }
+
     exec { 'Open port for SSH':
       command => "${openshift_origin::params::firewall_service_cmd}ssh",
       require => Package['firewall-package'],
+      notify => Service['firewalld'],
     }
 
     exec { 'Open port for HTTP':
       command => "${openshift_origin::params::firewall_service_cmd}http",
       require => Package['firewall-package'],
+      notify => Service['firewalld'],
     }
 
     exec { 'Open port for HTTPS':
       command => "${openshift_origin::params::firewall_service_cmd}https",
       require => Package['firewall-package'],
+      notify => Service['firewalld'],
     }
   }
 

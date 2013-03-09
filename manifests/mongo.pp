@@ -125,6 +125,7 @@ class openshift_origin::mongo {
 
     exec { 'Open port for MongoDB':
       command => "${openshift_origin::params::firewall_port_cmd}${mongo_port}",
+      notify => Service['firewalld'],
       require => [
         Package['mongodb'],
         Package['mongodb-server'],

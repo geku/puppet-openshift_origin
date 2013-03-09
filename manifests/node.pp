@@ -131,6 +131,7 @@ class openshift_origin::node {
     exec { 'Open HTTP port for Node-webproxy':
       command => "${openshift_origin::params::firewall_port_cmd}${webproxy_http_port}",
       require => Package['firewall-package'],
+      notify => Service['firewalld'],
     }
 
     $webproxy_https_port = $::use_firewalld ? {
@@ -141,6 +142,7 @@ class openshift_origin::node {
     exec { 'Open HTTPS port for Node-webproxy':
       command => "${openshift_origin::params::firewall_port_cmd}${webproxy_https_port}",
       require => Package['firewall-package'],
+      notify => Service['firewalld'],
     }
   } else {
     warning 'Please ensure that ports 80, 443, 8000, 8443 are open for web requests'

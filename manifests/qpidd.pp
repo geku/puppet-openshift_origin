@@ -64,6 +64,7 @@ class openshift_origin::qpidd {
     exec { 'Open port for Qpid':
       command => "${openshift_origin::params::firewall_port_cmd}${qpid_port}",
       require => Package['firewall-package'],
+      notify => Service['firewalld'],
     }
   }
 }

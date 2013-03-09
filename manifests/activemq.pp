@@ -115,7 +115,8 @@ class openshift_origin::activemq {
 
     exec { 'Open port for ActiveMQ':
       command => "${openshift_origin::params::firewall_port_cmd}${activemq_port}",
-      require => Package['firewall-package']
+      require => Package['firewall-package'],
+      notify => Service['firewalld'],
     }
   }
 }

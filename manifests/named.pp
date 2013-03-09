@@ -109,6 +109,7 @@ class openshift_origin::named {
     exec { 'Open port for BIND':
       command => "${openshift_origin::params::firewall_service_cmd}dns",
       require => Package['firewall-package'],
+      notify => Service['firewalld'],
     }
   }
 
