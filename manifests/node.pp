@@ -216,21 +216,52 @@ class openshift_origin::node {
 
   if $::openshift_origin::configure_cgroups == true {
     if $::openshift_origin::enable_network_services == true {
-      service { [
-        'cgconfig',
-        'cgred',
-        'openshift-cgroups',
-        'openshift-port-proxy',
-      ]:
+      service { 'cgconfig': 
+        enable => true,
+        ensure => 'running',
+      }
+
+      service { 'cgred': 
+        enable => true,
+        ensure => 'running',
+        require => Service['cgconfig']
+      }
+
+      service { 'openshift-cgroups': 
+        enable => true,
+        ensure => 'running',
         require => [
           Package['rubygem-openshift-origin-node'],
           Package['openshift-origin-node-util'],
+          Service['cgred']
+        ],
+      }
+
+      service { 'openshift-port-proxy': 
+        enable => true,
+        ensure => 'running',
+        require => [
           Package['openshift-origin-node-proxy'],
           Package['openshift-origin-port-proxy'],
+          Service['openshift-cgroups'],
         ],
-        enable  => true,
-        ensure => 'running',
       }
+
+#      service { [
+#        'cgconfig',
+#        'cgred',
+#        'openshift-cgroups',
+#        'openshift-port-proxy',
+#      ]:
+#        require => [
+#          Package['rubygem-openshift-origin-node'],
+#          Package['openshift-origin-node-util'],
+#          Package['openshift-origin-node-proxy'],
+#          Package['openshift-origin-port-proxy'],
+#        ],
+#        enable  => true,
+#        ensure => 'running',
+#      }
     } else {
       warning 'Please ensure that cgconfig, cgred, openshift-cgroups, openshift-port-proxy are running on all nodes'
     }
@@ -356,6 +387,12 @@ class openshift_origin::node {
     mode    => '0644',
   }
 
+  exec { 'reload sysctl config tweaks':
+    command => '/sbin/sysctl --system',
+    subscribe   => File['sysctl config tweaks'],
+    refreshonly => true,
+  }
+
   $printf = $::operatingsystem ? {
     'Fedora' => '/bin/printf "\nAcceptEnv GIT_SSH\n" >> "/etc/ssh/sshd_config"',
     default  => '/usr/bin/printf "\nAcceptEnv GIT_SSH\n" >> "/etc/ssh/sshd_config"'
@@ -391,7 +428,7 @@ class openshift_origin::node {
     }
 
     service { 'mcollective':
-      require => [Package['mcollective']],
+      require => [Package['mcollective'], File['mcollective server config']],
       enable  => true,
       ensure => 'running',
     }
