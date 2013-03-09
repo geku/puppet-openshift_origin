@@ -233,8 +233,16 @@ class openshift_origin::node {
 
       service { 'openshift-cgroups': 
         enable => true,
-        ensure => 'running',
+        # 'running' does not work as the service always returns 0 so Puppet assumes it is already running!
+        # workaround: Exec['Restart/start openshift-cgroups service'] below
+        # ensure => 'running',
         require => Service['cgred'],
+      }
+
+      exec { 'Restart/start openshift-cgroups service':
+          command => '/sbin/service openshift-cgroups restart',
+          refreshonly => true,
+          subscribe   => Service['openshift-cgroups'],
       }
 
       service { 'openshift-port-proxy': 
