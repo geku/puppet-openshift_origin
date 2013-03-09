@@ -1127,8 +1127,9 @@ class openshift_origin::broker {
 
   if $::openshift_origin::enable_network_services == true {
     service { 'openshift-broker':
-      require => [Package['openshift-origin-broker']],
+      require => [Package['openshift-origin-broker'], ],
       enable  => true,
+      ensure => 'running',
     }
   } else {
     warning 'Please ensure that openshift-broker service is enable on broker machines'
