@@ -99,7 +99,8 @@ class openshift_origin::activemq {
           File['jetty.xml config'],
           File['jetty-realm.properties config'],
         ],
-        hasstatus  => true,
+        hasstatus  => false,
+        status => '/sbin/service activemq status | grep 'is running' > /dev/null'
         hasrestart => true,
         enable     => true,
         ensure     => 'running',
